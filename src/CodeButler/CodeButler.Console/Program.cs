@@ -1,88 +1,66 @@
 ﻿using System;
+using System.CommandLine;
+using System.CommandLine.Parsing;
 using System.IO;
 using System.Threading.Tasks;
-using CodeButler.Padding;
-using CodeButler.Syntax;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace CodeButler
+namespace CodeButler;
+
+public class Program
 {
-    public class Program
+    public static async Task<int> Main(string[] args)
     {
-        public static async Task<int> Main(string[] args)
+        var rootCommand = new RootCommand("Reorganises, sorts and cleans up the provided C# file.");
+
+        var noSortMembersByAlphabetOption = new Option<bool>(
+            name: "--no-sort-members-by-alphabet",
+            description: "Disables sorting members by alphabet.",
+            getDefaultValue: () => false
+        );
+
+        var inputFileArgMeta = new
         {
-            Mode mode;
-            if (Console.IsInputRedirected)
+            Name = "input",
+            Description = "Path to input file or piped input."
+        };
+
+        var inputFileArg = new Argument<FileInfo?>(
+            name: "input",
+            description: "Path to input file or piped input.",
+            isDefault: true,
+            parse: result =>
             {
-                mode = Mode.Console;
-            }
-            else if (args.Length > 0)
-            {
-                mode = Mode.File;
-            }
-            else
-            {
-                Console.Error.WriteLine("No input provided.");
-                return -1;
-            }
-
-            string input = await GetInput(mode, args).ConfigureAwait(false);
-            CompilationUnitSyntax root = Parse(input);
-            var organizedRoot = Reorganize(root);
-
-            await SetOutput(organizedRoot, mode, args).ConfigureAwait(false);
-            return 0;
-        }
-
-        public static CompilationUnitSyntax Parse(string input)
-        {
-            var paddingCleaner = new PaddingCleaner();
-            string cleanInput = paddingCleaner.Clean(input);
-            SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(cleanInput);
-            CompilationUnitSyntax root = syntaxTree.GetCompilationUnitRoot();
-            return root;
-        }
-
-        public static CompilationUnitSyntax Reorganize(CompilationUnitSyntax compilationUnit)
-        {
-            return compilationUnit.Reorganize();
-        }
-
-        private static async Task<string> GetInput(Mode mode, string[] args)
-        {
-            switch (mode)
-            {
-                case Mode.Console:
-                    using (var reader = new StreamReader(Console.OpenStandardInput(), Console.InputEncoding))
+                if (result.Tokens.Count != 0)
+                {
+                    var fileInfo = new FileInfo(result.Tokens[0].Value);
+                    if (!fileInfo.Exists)
                     {
-                        return await reader.ReadToEndAsync().ConfigureAwait(false);
+                        result.ErrorMessage = $"File {fileInfo} does not exist.";
                     }
 
-                case Mode.File:
-                    return await File.ReadAllTextAsync(args[0]).ConfigureAwait(false);
-
-                default:
-                    throw new NotImplementedException($"Mode \"{mode}\" not implemented.");
+                    return fileInfo;
+                }
+                else if (Console.IsInputRedirected)
+                {
+                    return null;
+                }
+                else
+                {
+                    result.ErrorMessage = "Missing file path or piped input.";
+                    return null;
+                }
             }
-        }
+        );
 
-        private static async Task SetOutput(CompilationUnitSyntax compilationUnit, Mode mode, string[] args)
-        {
-            switch (mode)
-            {
-                case Mode.Console:
-                    Console.Write(compilationUnit.ToFullString());
-                    break;
+        rootCommand.AddOption(noSortMembersByAlphabetOption);
+        rootCommand.AddArgument(inputFileArg);
 
-                case Mode.File:
-                    await File.WriteAllTextAsync(args[0], compilationUnit.ToFullString()).ConfigureAwait(false);
-                    break;
+        rootCommand.SetHandler(
+            RootCommandHandler.Handle,
+            new RootCommandConfigurationBinder(noSortMembersByAlphabetOption, inputFileArg)
+        );
 
-                default:
-                    throw new NotImplementedException($"Mode \"{mode}\" not implemented.");
-            }
-        }
+        var exitCode = await rootCommand.InvokeAsync(args);
+        return exitCode;
     }
 }
