@@ -6,8 +6,21 @@
         <RootNamespace>CodeButler</RootNamespace>
         <Nullable>enable</Nullable>
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
-		<Version>2.2.1</Version>
+
+        <PackageId>code-butler</PackageId>
+        <AssemblyName>dotnet-code-butler</AssemblyName>
+        <PackAsTool>true</PackAsTool>
+        <Description>Reorganises, sorts and cleans up the provided C# file.</Description>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageProjectUrl></PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Projektanker/code-butler</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Version>2.2.1</Version>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\..\..\README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.9.2" />
