@@ -31,16 +31,15 @@ async function runCleanupImplementation(document: vscode.TextDocument) {
     return;
   }
 
-  if (document.lineCount <= 1) {
+  if (document.lineCount === 0) {
     logger.info("Empty document. Nothing to cleanup.");
     return;
   }
 
   const config = CodeButlerConfigurationProvider.configuration;
-  const dotnetTool = new DotnetTool({
+  const result = await DotnetTool.executeRootCommand(document.getText(), {
     sortMebersByAlphabet: config.sortMembersByAlphabet,
   });
-  const result = await dotnetTool.run(document.getText());
   await replaceContent(document, result);
   await vscode.commands.executeCommand("editor.action.formatDocument");
 }

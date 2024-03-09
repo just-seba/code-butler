@@ -5,12 +5,14 @@ import { Logger } from "./Logger";
 import { CodeButlerConfigurationProvider } from "./CodeButlerConfigurationProvider";
 
 import { runCleanup } from "./cleanup";
+import { DotnetTool } from "./DotnetTool";
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
   const logger = Logger.Instance();
   logger.info(`👋 Initializing ${context.extension.id}`);
+  await DotnetTool.isInstalledOrAskToInstall();
 
   CodeButlerConfigurationProvider.load();
 
