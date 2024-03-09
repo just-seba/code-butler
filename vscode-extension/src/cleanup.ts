@@ -1,14 +1,16 @@
 import * as vscode from "vscode";
 import { performance } from "perf_hooks";
 import { Logger } from "./Logger";
-import { run as runDotnetTool } from "./dotnet-tool";
+import { DotnetTool } from "./DotnetTool";
+import { CodeButlerConfigurationProvider } from "./CodeButlerConfigurationProvider";
 
 export async function runCleanup(document: vscode.TextDocument) {
   const logger = Logger.Instance();
 
   try {
+    logger.info(`Clean up started for ${document.fileName}.`);
     const start = performance.now();
-    runCleanupImplementation(document);
+    await runCleanupImplementation(document);
     const end = performance.now();
     logger.info(`Clean up done in ${Math.round(end - start)}ms.`);
   } catch (error) {
@@ -34,7 +36,11 @@ async function runCleanupImplementation(document: vscode.TextDocument) {
     return;
   }
 
-  const result = await runDotnetTool(document.getText());
+  const config = CodeButlerConfigurationProvider.configuration;
+  const dotnetTool = new DotnetTool({
+    sortMebersByAlphabet: config.sortMembersByAlphabet,
+  });
+  const result = await dotnetTool.run(document.getText());
   await replaceContent(document, result);
   await vscode.commands.executeCommand("editor.action.formatDocument");
 }

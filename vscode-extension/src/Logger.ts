@@ -36,7 +36,9 @@ export class Logger {
 
   private log(logLevel: LogLevel, message: string) {
     const timeStamp = new Date().toISOString();
-    this._outputChannel.appendLine(`[${logLevel} - ${timeStamp}] ${message}`);
+    this._outputChannel.appendLine(
+      `[${logLevel.slice(0, 3)} - ${timeStamp}] ${message}`
+    );
     console.log(message);
   }
 }
