@@ -1,4 +1,4 @@
-export interface CodeButlerConfiguration {
+export interface Configuration {
   cleanupOnSave: boolean;
   sortMembersByAlphabet: boolean;
 }

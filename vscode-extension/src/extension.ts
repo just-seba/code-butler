@@ -1,20 +1,17 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
-import { Logger } from "./Logger";
-import { CodeButlerConfigurationProvider } from "./CodeButlerConfigurationProvider";
+import * as logger from "./logger";
+import { ConfigurationProvider } from "./configuration-provider";
 
 import { runCleanup } from "./cleanup";
-import { DotnetTool } from "./DotnetTool";
+import * as dotnetTool from "./dotnet-tool";
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
-  const logger = Logger.Instance();
   logger.info(`👋 Initializing ${context.extension.id}`);
-  await DotnetTool.isInstalledOrAskToInstall();
-
-  CodeButlerConfigurationProvider.load();
+  await dotnetTool.isInstalledOrAskToInstall();
 
   const disposables = vscode.Disposable.from(
     // Configuration
@@ -40,7 +37,7 @@ function onDidChangeConfigurationHandler(
   event: vscode.ConfigurationChangeEvent
 ) {
   if (event.affectsConfiguration("code-butler")) {
-    CodeButlerConfigurationProvider.load();
+    ConfigurationProvider.invalidate();
   }
 }
 
@@ -55,7 +52,7 @@ async function commandHandler(
 async function onWillSaveTextDocumentHandler(
   event: vscode.TextDocumentWillSaveEvent
 ) {
-  if (!CodeButlerConfigurationProvider.configuration.cleanupOnSave) {
+  if (!ConfigurationProvider.configuration.cleanupOnSave) {
     return;
   }
 

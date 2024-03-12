@@ -1,12 +1,10 @@
 import * as vscode from "vscode";
 import { performance } from "perf_hooks";
-import { Logger } from "./Logger";
-import { DotnetTool } from "./DotnetTool";
-import { CodeButlerConfigurationProvider } from "./CodeButlerConfigurationProvider";
+import * as logger from "./logger";
+import * as dotnetTool from "./dotnet-tool";
+import { ConfigurationProvider } from "./configuration-provider";
 
 export async function runCleanup(document: vscode.TextDocument) {
-  const logger = Logger.Instance();
-
   try {
     logger.info(`Clean up started for ${document.fileName}.`);
     const start = performance.now();
@@ -19,8 +17,6 @@ export async function runCleanup(document: vscode.TextDocument) {
 }
 
 async function runCleanupImplementation(document: vscode.TextDocument) {
-  const logger = Logger.Instance();
-
   if (!document) {
     logger.error("No document specified.");
     return;
@@ -36,8 +32,8 @@ async function runCleanupImplementation(document: vscode.TextDocument) {
     return;
   }
 
-  const config = CodeButlerConfigurationProvider.configuration;
-  const result = await DotnetTool.executeRootCommand(document.getText(), {
+  const config = ConfigurationProvider.configuration;
+  const result = await dotnetTool.executeRootCommand(document.getText(), {
     sortMebersByAlphabet: config.sortMembersByAlphabet,
   });
   await replaceContent(document, result);
