@@ -1,6 +1,24 @@
 ## 2.2.1 (April 26, 2023)
  - Fixes README typo 😅
  
+## [3.0.0](https://github.com/just-seba/code-butler/compare/code-butler-v2.2.1...code-butler-v3.0.0) (2024-03-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* Requires and checks for `code-butler`dotnet tool installation.
+
+### 🚀 Features
+
+* Adds option to disable sorting members by alphabet in vscode extension. ([e0e252f](https://github.com/just-seba/code-butler/commit/e0e252f2da57a623779add3e00d6c53aed2fe26e))
+* Requires and checks for `code-butler`dotnet tool installation. ([3d167d1](https://github.com/just-seba/code-butler/commit/3d167d106b494587940dbe47609510158c05f284))
+
+
+### 📦️ Build System, Dependencies
+
+* Bundles vscode-extension with esbuild. ([239ccd3](https://github.com/just-seba/code-butler/commit/239ccd37c063076680310915498ee38bd78bc862))
+* run `_markdown`script on `vscode:prepublish` ([4d95ff6](https://github.com/just-seba/code-butler/commit/4d95ff6f31229c009e3fa18c332784d584fe2c48))
+
 ## 2.2.0 (April 26, 2023)
  - Adds support for `required` keyword ([#17](https://github.com/Projektanker/code-butler/issues/17))
 
