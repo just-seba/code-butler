@@ -2,5 +2,5 @@ release-please is not tracking the old source directory for the Code Butler dotn
 Therefore there have to be three commits to fix the CHANGELOG and versioning of the dotnet-tool release-please package.
 
 - [x] feat: Command line flag `--no-sort-members-by-alphabet` to disable sorting members by alphabet. (see: [2d24189](https://github.com/just-seba/code-butler/commit/2d241899df50e0b0b47339a2b67de0abb41b6aa7))
-- [ ] feat: Support for `using`statements below file-scoped `namespace`declaration. (see: [be77618](https://github.com/just-seba/code-butler/commit/be776186cf67aa58fca9c78a807625ccdfef2de1))
+- [x] feat: Support for `using`statements below file-scoped `namespace`declaration. (see: [be77618](https://github.com/just-seba/code-butler/commit/be776186cf67aa58fca9c78a807625ccdfef2de1))
 - [ ] feat!: Publishes CodeButler as a dotnet tool. (see: [a0541a0](https://github.com/just-seba/code-butler/commit/a0541a028d98ca8126ad706c512dfddcc5d2ea09))
