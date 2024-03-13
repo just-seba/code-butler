@@ -33,16 +33,19 @@ jobs:
           --configuration Release
           --no-build
 
-      - name: 📯 Publish
-        if: false
-        run: dotnet publish ./CodeButler.Console/CodeButler.Console.csproj --output ./publish
+      - name: 📦️ Pack .NET tool
+        run: >
+          dotnet pack
+          --output ./
+          ./CodeButler.Console/CodeButler.Console.csproj
 
-      - name: 📤 Upload Console Artifact
-        if: false
+      - name: 📤 Upload .NET tool artifact
         uses: actions/upload-artifact@v4
         with:
-          name: CodeButler.Console
-          path: ${{ github.workspace }}/src/CodeButler/publish/
+          name: dotnet-tool
+          path: dotnet-tool/*.nupkg
+          if-no-files-found: error
+          retention-days: 1
 
   vscode-extension:
     name: 🔵 VS Code extension
@@ -60,19 +63,19 @@ jobs:
       - name: 🛠 Install NPM packages
         run: npm ci
 
-      - name: ✔ Pre-Test (comile and lint)
+      - name: ✔ Pre-Test (compile and lint)
         run: npm run pretest
 
       - name: 📦 Package VSIX
-        if: false
-        run: npm run vsce:package
+        run: npx vsce package
 
-      - name: 📤 Upload VSIX Artifact
-        if: false
+      - name: 📤 Upload VSIX artifact
         uses: actions/upload-artifact@v4
         with:
-          name: projektanker.code-butler
-          path: ${{ github.workspace }}/src/projektanker.code-butler/code-butler-*.vsix
+          name: vscode-extension
+          path: vscode-extension/*.vsix
+          if-no-files-found: error
+          retention-days: 1
 
   publish-vs:
     name: 📯 Publish to Visual Studio Marketplace
@@ -89,9 +92,6 @@ jobs:
 
       - name: 🟢 Setup node.js
         uses: actions/setup-node@v4
-
-      - name: 🟣 Setup .NET
-        uses: actions/setup-dotnet@v4
 
       - name: 🛠 Install NPM packages
         run: npm ci
