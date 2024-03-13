@@ -2,20 +2,17 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net8.0</TargetFramework>
         <RootNamespace>CodeButler</RootNamespace>
-        <Nullable>enable</Nullable>
-        <EnableNETAnalyzers>true</EnableNETAnalyzers>
 
+        <Authors>Sebastian Rumohr</Authors>
         <PackageId>code-butler</PackageId>
         <AssemblyName>dotnet-code-butler</AssemblyName>
         <PackAsTool>true</PackAsTool>
         <Description>Reorganises, sorts and cleans up the provided C# file.</Description>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageProjectUrl></PackageProjectUrl>
-        <RepositoryUrl>https://github.com/Projektanker/code-butler</RepositoryUrl>
+        <RepositoryUrl>https://github.com/just-seba/code-butler</RepositoryUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <Version>2.2.1</Version>
     </PropertyGroup>
 
     <ItemGroup>
@@ -25,10 +22,6 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.9.2" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.9.2" />
-        <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
         <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
     </ItemGroup>
 </Project>
