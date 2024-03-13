@@ -39,7 +39,7 @@ jobs:
           --output ./
           ./CodeButler.Console/CodeButler.Console.csproj
 
-      - name: 📤 Upload .NET tool artifact
+      - name: 📤 Upload NUPKG artifact
         uses: actions/upload-artifact@v4
         with:
           name: dotnet-tool
@@ -82,7 +82,8 @@ jobs:
     if: github.ref_name == 'main'
     runs-on: ubuntu-latest
     outputs:
-      created: ${{ steps.release.outputs.release_created }}
+      created-dotnet-tool: ${{ steps.release.outputs.dotnet-tool--release_created }}
+      created-vscode-extension: ${{ steps.release.outputs.vscode-extension--release_created }}
     steps:
       - name: ✨ Release Please
         id: release
@@ -91,49 +92,77 @@ jobs:
           config-file: release-please/config.json
           manifest-file: release-please/manifest.json
 
-  publish-vs:
-    name: 📯 Publish to Visual Studio Marketplace
+  publish-dotnet-tool:
+    name: 📯 Publish to nuget.org
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
-    needs: ["dotnet-tool", "vscode-extension"]
-    defaults:
-      run:
-        working-directory: src/projektanker.code-butler
-
+    needs:
+      - "release-please"
+      - "dotnet-tool"
+    if: ${{ needs.release-please.outputs.created-dotnet-tool }}
     steps:
-      - name: 🛒 Checkout
+      - name: 🛒 Sparce checkout (to have global.json present for .NET setup)
         uses: actions/checkout@v4
-
-      - name: 🟢 Setup node.js
-        uses: actions/setup-node@v4
-
-      - name: 🛠 Install NPM packages
-        run: npm ci
-
-      - name: 📯 Publish
-        run: npx vsce publish -p ${{ secrets.VS_MARKETPLACE_TOKEN }}
-
-  publish-open-vsx:
-    name: 📯 Publish to Open VSX Registry
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
-    needs: ["dotnet-tool", "vscode-extension"]
-    defaults:
-      run:
-        working-directory: src/projektanker.code-butler
-
-    steps:
-      - name: 🛒 Checkout
-        uses: actions/checkout@v4
-
-      - name: 🟢 Setup node.js
-        uses: actions/setup-node@v4
+        with:
+          sparse-checkout: |
+            global.json
 
       - name: 🟣 Setup .NET
         uses: actions/setup-dotnet@v4
 
-      - name: 🛠 Install NPM packages
-        run: npm ci
+      - name: 📥️ Download NUPKG artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dotnet-tool
+
+      - name: 📯 Publish
+        run: >
+          dotnet nuget push
+          **.nupkg
+          --api-key ${{ secrets.NUGET_API_KEY }}
+          --source https://api.nuget.org/v3/index.json
+
+  publish-vscode-extension-to-vs:
+    name: 📯 Publish to Visual Studio Marketplace
+    runs-on: ubuntu-latest
+    needs:
+      - "release-please"
+      - "vscode-extension"
+    if: ${{ needs.release-please.outputs.created-vscode-extension }}
+
+    steps:
+      - name: 🟢 Setup node.js
+        uses: actions/setup-node@v4
+
+      - name: 📥️ Download VSIX artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vscode-extension
+
+      - name: 📯 Publish
+        run: >
+          npx vsce publish 
+          --packagePath *.vsix
+          --pat ${{ secrets.VS_MARKETPLACE_TOKEN }}
+
+  publish-vscode-extension-to-open-vsx:
+    name: 📯 Publish to Open VSX Registry
+    runs-on: ubuntu-latest
+    needs:
+      - "release-please"
+      - "vscode-extension"
+    if: ${{ needs.release-please.outputs.created-vscode-extension }}
+
+    steps:
+      - name: 🟢 Setup node.js
+        uses: actions/setup-node@v4
+
+      - name: 📥️ Download VSIX artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vscode-extension
 
       - name: 📯 Publish to Open VSX Registry
-        run: npx ovsx publish -p ${{ secrets.OPEN_VSX_TOKEN }}
+        run: >
+          npx ovsx publish
+          --packagePath *.vsix
+          --pat ${{ secrets.OPEN_VSX_TOKEN }}
