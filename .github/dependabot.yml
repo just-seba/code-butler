@@ -14,14 +14,14 @@ updates:
         patterns:
           - "xunit*"
   - package-ecosystem: "npm"
-    directory: "src/projektanker.code-butler"
+    directory: "vscode-extension"
     schedule:
       interval: "weekly"
     labels:
       - "dependencies"
     commit-message:
       prefix: "build"
-      include: "scope"    
+      include: "scope"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
