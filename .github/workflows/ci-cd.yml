@@ -77,6 +77,20 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
+  release-please:
+    name: ✨ Release Please
+    if: github.ref_name == 'main'
+    runs-on: ubuntu-latest
+    outputs:
+      created: ${{ steps.release.outputs.release_created }}
+    steps:
+      - name: ✨ Release Please
+        id: release
+        uses: google-github-actions/release-please-action@v4
+        with:
+          config-file: release-please/config.json
+          manifest-file: release-please/manifest.json
+
   publish-vs:
     name: 📯 Publish to Visual Studio Marketplace
     runs-on: ubuntu-latest
