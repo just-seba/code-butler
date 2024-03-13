@@ -23,7 +23,7 @@
   "activationEvents": [
     "onLanguage:csharp"
   ],
-  "main": "./out/extension.js",
+  "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
@@ -70,23 +70,24 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run _markdown && npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
+    "vscode:prepublish": "npm run _markdown && npm run _esbuild -- --minify",
+    "watch": "npm run _esbuild -- --sourcemap --watch",
+    "pretest": "tsc -p ./ && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "vscode-test",
+    "_esbuild": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
     "_markdown": "cp -f ../README.md README.md && cp -f ../CHANGELOG.md CHANGELOG.md && cp -f ../LICENSE LICENSE"
   },
   "devDependencies": {
-    "@types/vscode": "^1.87.0",
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
+    "@types/vscode": "^1.85.0",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
-    "eslint": "^8.56.0",
-    "typescript": "^5.3.3",
     "@vscode/test-cli": "^0.0.6",
-    "@vscode/test-electron": "^2.3.9"
+    "@vscode/test-electron": "^2.3.9",
+    "esbuild": "^0.20.1",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
   }
 }
