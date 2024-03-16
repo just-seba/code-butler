@@ -1,7 +1,8 @@
-# Code Butler
+# Code Butler for Visual Studio Code
 
-[Code Butler](https://github.com/just-seba/code-butler) is a [dotnet tool](https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools) and [VS code extension](https://marketplace.visualstudio.com/items?itemName=projektanker.code-butler) for your `C#` files at your service.  
-This tool is heavily inspired by [CodeMaid](https://www.codemaid.net). As it is available as as a stand-alone version and as a Visual Studio Code extension, this tool will provide similar features.
+This extension makes use of the dotnet tool [code-butler](https://www.nuget.org/packages/code-butler) to clean up you `C#` files.
+
+This tool is heavily inspired by [CodeMaid](https://www.codemaid.net). As it is available as as a [dotnet tool](https://www.nuget.org/packages/code-butler) and [Visual Studio Code extension](https://marketplace.visualstudio.com/items?itemName=just-seba.vscode-code-butler), this tool will provide similar features.
 
 ## Features
 
@@ -10,9 +11,14 @@ Using this tool will cleanup your `C#` file by
 1.  reorganizing the layout of the members in the C# file to follow Microsoft's StyleCop conventions
 2.  sorting it's using directives
 3.  removes trailing whitespace and consecutive blank lines
-4.  (only in [VS code extension](https://marketplace.visualstudio.com/items?itemName=projektanker.code-butler)) executing `Format Document` command.
+4.  Executing the `Format Document` command.
 
 as described below.
+
+### Settings
+
+- Run code cleanup on save (disabled by default)
+- Sort members by alphabet (enabled by default)
 
 ### Reorganize the layout of members in a C# file to follow Microsoft's StyleCop conventions
 
@@ -49,7 +55,7 @@ Then by additional modifiers:
 4.  `readonly`
 5.  none
 
-And finally alphabetically.
+And finally alphabetically (optional).
 
 **Warning:** `#region ... #endregion` is not supported.
 
@@ -78,15 +84,8 @@ using static System.Math;
 
 ## Prerequisites
 
-- [.NET 8 runtime](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [code-butler](https://www.nuget.org/packages/code-butler) installed as [global dotnet tool](https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools-how-to-use).
 
 ## Usage
 
-See [vscode-extension/README.md](vscode-extension/README.md#usage) for the Visual Studio Extension.  
-See [dotnet-tool/README.md](dotnet-tool/README.md#usage) for the dotnet tool.
-
-## Contributors
-
-- [Projektanker GmbH](https://github.com/Projektanker/)
-- [loreggia](https://github.com/loreggia)
-- [pmahend1](https://github.com/pmahend1)
+Execute command `Code Butler: Cleanup C# file` while editing a `C#` file to clean it up.

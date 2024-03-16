@@ -70,13 +70,13 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run _markdown && npm run _esbuild -- --minify",
+    "vscode:prepublish": "npm run _license && npm run _esbuild -- --minify",
     "watch": "npm run _esbuild -- --sourcemap --watch",
     "pretest": "tsc -p ./ && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "vscode-test",
     "_esbuild": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
-    "_markdown": "cp -f ../README.md README.md && cp -f ../LICENSE LICENSE"
+    "_license": "cp -f ../LICENSE LICENSE"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.6",

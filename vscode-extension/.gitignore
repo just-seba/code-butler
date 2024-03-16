@@ -4,5 +4,4 @@ publish
 node_modules
 .vscode-test/
 *.vsix
-README.md
 LICENSE

@@ -1,7 +1,8 @@
-# Code Butler
+# code-butler dotnet tool
 
-[Code Butler](https://github.com/just-seba/code-butler) is a [dotnet tool](https://learn.microsoft.com/en-us/dotnet/core/tools/global-tools) and [VS code extension](https://marketplace.visualstudio.com/items?itemName=projektanker.code-butler) for your `C#` files at your service.  
-This tool is heavily inspired by [CodeMaid](https://www.codemaid.net). As it is available as as a stand-alone version and as a Visual Studio Code extension, this tool will provide similar features.
+A [dotnet tool](https://www.nuget.org/packages/code-butler) for your `C#` files at your service.
+
+This tool is heavily inspired by [CodeMaid](https://www.codemaid.net). As it is available as as a [dotnet tool](https://www.nuget.org/packages/code-butler) and [Visual Studio Code extension](https://marketplace.visualstudio.com/items?itemName=just-seba.vscode-code-butler), this tool will provide similar features.
 
 ## Features
 
@@ -10,9 +11,10 @@ Using this tool will cleanup your `C#` file by
 1.  reorganizing the layout of the members in the C# file to follow Microsoft's StyleCop conventions
 2.  sorting it's using directives
 3.  removes trailing whitespace and consecutive blank lines
-4.  (only in [VS code extension](https://marketplace.visualstudio.com/items?itemName=projektanker.code-butler)) executing `Format Document` command.
 
-as described below.
+### Options
+
+- `--no-sort-members-by-alphabet`: Disables sorting members by alphabet. [default: `false`]
 
 ### Reorganize the layout of members in a C# file to follow Microsoft's StyleCop conventions
 
@@ -49,7 +51,7 @@ Then by additional modifiers:
 4.  `readonly`
 5.  none
 
-And finally alphabetically.
+And finally alphabetically (optional).
 
 **Warning:** `#region ... #endregion` is not supported.
 
@@ -82,11 +84,21 @@ using static System.Math;
 
 ## Usage
 
-See [vscode-extension/README.md](vscode-extension/README.md#usage) for the Visual Studio Extension.  
-See [dotnet-tool/README.md](dotnet-tool/README.md#usage) for the dotnet tool.
+Install Code Butler as a global tool with the following command.
 
-## Contributors
+```sh
+dotnet tool install --global code-butler
+```
 
-- [Projektanker GmbH](https://github.com/Projektanker/)
-- [loreggia](https://github.com/loreggia)
-- [pmahend1](https://github.com/pmahend1)
+Then use the tool to cleanup your code.
+
+```sh
+# File mode
+dotnet-code-butler path/to/MyClass.cs
+
+# Pipe mode
+type path/to/MyClass.cs | dotnet-code-butler > MyClass.Reorganized.cs`
+
+# Do not sort members by alphabet
+dotnet-code-butler path/to/MyClass.cs --no-sort-members-by-alphabet
+```
