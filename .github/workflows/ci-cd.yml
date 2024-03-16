@@ -120,6 +120,7 @@ jobs:
           **.nupkg
           --api-key ${{ secrets.NUGET_API_KEY }}
           --source https://api.nuget.org/v3/index.json
+          --skip-duplicate
 
   publish-vscode-extension-to-vs:
     name: 📯 Publish to Visual Studio Marketplace
@@ -143,6 +144,7 @@ jobs:
           npx vsce publish 
           --packagePath *.vsix
           --pat ${{ secrets.VS_MARKETPLACE_TOKEN }}
+          --skip-duplicate
 
   publish-vscode-extension-to-open-vsx:
     name: 📯 Publish to Open VSX Registry
@@ -167,3 +169,4 @@ jobs:
           npx ovsx publish
           --packagePath *.vsix
           --pat ${{ secrets.OPEN_VSX_TOKEN }}
+          --skip-duplicate
