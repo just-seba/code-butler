@@ -162,6 +162,8 @@ jobs:
           name: vscode-extension
 
       - name: 📯 Publish to Open VSX Registry
+        # Token not available yet.
+        if: false
         run: >
           npx ovsx publish
           --packagePath *.vsix
