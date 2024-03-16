@@ -150,7 +150,8 @@ jobs:
     needs:
       - "release-please"
       - "vscode-extension"
-    if: ${{ needs.release-please.outputs.created-vscode-extension }}
+    # Token not available yet
+    if: ${{ false && needs.release-please.outputs.created-vscode-extension }}
 
     steps:
       - name: 🟢 Setup node.js
@@ -162,8 +163,6 @@ jobs:
           name: vscode-extension
 
       - name: 📯 Publish to Open VSX Registry
-        # Token not available yet.
-        if: false
         run: >
           npx ovsx publish
           --packagePath *.vsix
