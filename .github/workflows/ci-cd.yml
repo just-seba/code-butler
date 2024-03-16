@@ -152,8 +152,7 @@ jobs:
     needs:
       - "release-please"
       - "vscode-extension"
-    # Token not available yet
-    if: ${{ false && needs.release-please.outputs.created-vscode-extension }}
+    if: ${{ needs.release-please.outputs.created-vscode-extension }}
 
     steps:
       - name: 🟢 Setup node.js
