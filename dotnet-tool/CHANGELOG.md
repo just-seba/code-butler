@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/just-seba/code-butler/compare/dotnet-code-butler-v3.0.0...dotnet-code-butler-v3.0.1) (2024-03-16)
+
+
+### 🐛 Bug Fixes
+
+* Fixes README links. Adds missing documentation on --no-sort-members-by-alphabet. ([f2506b4](https://github.com/just-seba/code-butler/commit/f2506b47181e70a991d2b963876c9bb3289b69fe))
+
 ## [3.0.0](https://github.com/just-seba/code-butler/compare/dotnet-code-butler-v2.2.1...dotnet-code-butler-v3.0.0) (2024-03-16)
 
 

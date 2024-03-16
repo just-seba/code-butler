@@ -4,7 +4,7 @@
     <Nullable>enable</Nullable>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <!--x-release-please-start-version-->
-    <Version>3.0.0</Version>
+    <Version>3.0.1</Version>
     <!--x-release-please-end-->
   </PropertyGroup>
 
