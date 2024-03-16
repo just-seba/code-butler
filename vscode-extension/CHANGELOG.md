@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/just-seba/code-butler/compare/vscode-code-butler-v3.0.0...vscode-code-butler-v3.1.0) (2024-03-16)
+
+
+### 🚀 Features
+
+* Adds progress notification to installation of required global dotnet tool. ([192684f](https://github.com/just-seba/code-butler/commit/192684f7825b0142c5cc9d24adf72126233a984b))
+
 ## [3.0.0](https://github.com/just-seba/code-butler/compare/vscode-code-butler-v2.2.1...vscode-code-butler-v3.0.0) (2024-03-16)
 
 
