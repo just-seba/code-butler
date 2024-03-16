@@ -1,4 +1,4 @@
 {
-  "dotnet-tool": "2.2.1",
-  "vscode-extension": "2.2.1"
+  "dotnet-tool": "3.0.0",
+  "vscode-extension": "3.0.0"
 }

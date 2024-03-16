@@ -1,5 +1,23 @@
 # Changelog
 
+## [3.0.0](https://github.com/just-seba/code-butler/compare/dotnet-code-butler-v2.2.1...dotnet-code-butler-v3.0.0) (2024-03-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* Publishes CodeButler as a dotnet tool. (see: [a0541a0](https://github.com/just-seba/code-butler/commit/a0541a028d98ca8126ad706c512dfddcc5d2ea09))
+
+### 🚀 Features
+
+* Command line flag `--no-sort-members-by-alphabet` to disable sorting members by alphabet. (see: [2d24189](https://github.com/just-seba/code-butler/commit/2d241899df50e0b0b47339a2b67de0abb41b6aa7)) ([7ca7525](https://github.com/just-seba/code-butler/commit/7ca75252ccf0dcae9f6ed32eb186d7fd184ff447))
+* Publishes CodeButler as a dotnet tool. (see: [a0541a0](https://github.com/just-seba/code-butler/commit/a0541a028d98ca8126ad706c512dfddcc5d2ea09)) ([3ed6a5e](https://github.com/just-seba/code-butler/commit/3ed6a5e09d43365417b8c13efd4f8cf4ee75b9db))
+* Support for `using`statements below file-scoped `namespace`declaration. (see: [be77618](https://github.com/just-seba/code-butler/commit/be776186cf67aa58fca9c78a807625ccdfef2de1)) ([83b91eb](https://github.com/just-seba/code-butler/commit/83b91eb81d208b041747386577f10b81e03dfc32))
+
+
+### 📦️ Build System, Dependencies
+
+* Adds Directory.Build.props ([3bae4e5](https://github.com/just-seba/code-butler/commit/3bae4e59582c6c238f506b328332e5b11dfa8b60))
+
 ## 2.2.1 (April 26, 2023)
 
 - Fixes README typo 😅
