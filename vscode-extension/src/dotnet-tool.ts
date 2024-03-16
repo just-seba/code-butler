@@ -1,9 +1,11 @@
 import { spawn, execFile, ExecFileException } from "child_process";
 import { promisify } from "util";
-import { window } from "vscode";
+import { window, ProgressLocation } from "vscode";
 import * as logger from "./logger";
 
 const execFileAsync = promisify(execFile);
+const delay = (ms: number) =>
+  new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 const _toolId = "code-butler";
 const _command = "dotnet-code-butler";
@@ -59,7 +61,7 @@ export async function isInstalledOrAskToInstall(): Promise<boolean> {
 
   window
     .showErrorMessage(
-      `Code Butler: Global dotnet tool '${_toolId}' is required.`,
+      `Global dotnet tool '${_toolId}' is required.`,
       `Install ${_toolId}`
     )
     .then(async (selection) => {
@@ -67,13 +69,28 @@ export async function isInstalledOrAskToInstall(): Promise<boolean> {
         return;
       }
 
-      logger.info(`Installing global dotnet tool ${_toolId}.`);
       try {
-        await install();
-        logger.info("Installation succeeded.");
+        await window.withProgress(
+          {
+            location: ProgressLocation.Notification,
+            cancellable: false,
+            title: `Installing global dotnet tool ${_toolId}`,
+          },
+          async (progress, _) => {
+            logger.info(`Installing global dotnet tool ${_toolId}.`);
+            await install();
+            logger.info(`Installation of ${_toolId} succeeded.`);
+
+            progress.report({
+              increment: 100,
+              message: "✅",
+            });
+            await delay(5000);
+          }
+        );
       } catch (error) {
-        logger.error(`Installation failed: ${error}`);
-        window.showErrorMessage("Code Butler: Installation failed.");
+        logger.error(`Installation of ${_toolId} failed: ${error}`);
+        window.showErrorMessage(`Installation of ${_toolId} failed.`);
       }
     });
 
