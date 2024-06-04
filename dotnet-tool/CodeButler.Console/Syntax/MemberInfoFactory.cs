@@ -78,7 +78,19 @@ public static class MemberInfoFactory
 
         if (modifierKinds.Count == 0)
         {
-            return MemberAccessModifier.None;
+            if (
+                memberDeclaration
+                is MethodDeclarationSyntax
+                    and { ExplicitInterfaceSpecifier: not null }
+            )
+            {
+                // explicit interface implementation
+                return MemberAccessModifier.ExplicitInterfaceImplementation;
+            }
+            else
+            {
+                return MemberAccessModifier.None;
+            }
         }
         else if (modifierKinds.Contains(SyntaxKind.PublicKeyword))
         {
