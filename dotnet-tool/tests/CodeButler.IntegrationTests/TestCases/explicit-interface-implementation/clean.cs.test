@@ -1,7 +1,11 @@
 namespace CodeButler.IntegrationTests.TestCases.ExplicitInterfaceImplementation;
 
-public class Test : IEnumerable<string>
+public class Test : IEnumerable<string>, IInterfaceWithName
 {
+    public string Name { get; set; }
+    string IInterfaceWithName.Name { get; set; }
+    private string PrivateName { get; set; }
+
     public IEnumerator<string> GetEnumerator()
     {
         throw new NotImplementedException();

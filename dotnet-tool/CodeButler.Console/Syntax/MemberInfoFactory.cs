@@ -84,7 +84,16 @@ public static class MemberInfoFactory
                     and { ExplicitInterfaceSpecifier: not null }
             )
             {
-                // explicit interface implementation
+                // explicit interface implementation of method
+                return MemberAccessModifier.ExplicitInterfaceImplementation;
+            }
+            else if (
+                memberDeclaration
+                is BasePropertyDeclarationSyntax
+                    and { ExplicitInterfaceSpecifier: not null }
+            )
+            {
+                // explicit interface implementation of property, indexer or event
                 return MemberAccessModifier.ExplicitInterfaceImplementation;
             }
             else
