@@ -1,0 +1,19 @@
+namespace CodeButler.IntegrationTests.TestCases.ExplicitInterfaceImplementation;
+
+public class Test : IEnumerable<string>
+{
+    public IEnumerator<string> GetEnumerator()
+    {
+        throw new NotImplementedException();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void Print()
+    {
+        Console.WriteLine("private");
+    }
+}

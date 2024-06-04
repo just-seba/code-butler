@@ -3,6 +3,7 @@
 public enum MemberAccessModifier
 {
     Public,
+    ExplicitInterfaceImplementation,
     Internal,
     Protected,
     ProtectedInternal,
