@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.2](https://github.com/just-seba/code-butler/compare/dotnet-code-butler-v3.0.1...dotnet-code-butler-v3.0.2) (2024-06-04)
+
+
+### 🐛 Bug Fixes
+
+* Handle explicit interface implementations by sorting them between `public` and `internal` members ([45b870c](https://github.com/just-seba/code-butler/commit/45b870c1f1867ab75295396b8760203b3f095595))
+
 ## [3.0.1](https://github.com/just-seba/code-butler/compare/dotnet-code-butler-v3.0.0...dotnet-code-butler-v3.0.1) (2024-03-16)
 
 
